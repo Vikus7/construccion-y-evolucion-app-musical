@@ -1,0 +1,51 @@
+@startuml
+
+class Usuario {
+  - nombre: String
+  - email: String
+  - contrasena: String
+
+  + agregarAlbum(nombre: String, anoLanzamiento: int, disquera: String, artistas: List<Artista>): boolean
+  + buscarAlbumPorAno(ano: int): List<Album>
+  + verListaCanciones(album: Album): List<Cancion>
+}
+
+class Album {
+  - nombre: String
+  - anoLanzamiento: int
+  - disquera: String
+  - artistas: List<Artista>
+  - canciones: List<Cancion>
+
+  + agregarCancion(titulo: String, duracion: float): boolean
+  + listarCanciones(): List<Cancion>
+  + existeCancion(titulo: String): boolean
+}
+
+class Cancion {
+  - titulo: String
+  - duracion: float
+}
+
+class Artista {
+  - nombre: String
+  - apellido: String
+}
+
+class Sistema {
+  - usuarios: List<Usuario>
+  - albums: List<Album>
+
+  + registrarUsuario(nombre: String, email: String, contrasena: String): boolean
+  + buscarAlbumPorAno(ano: int): List<Album>
+}
+
+Sistema "1" *-- "0..*" Usuario : contiene
+Sistema "1" *-- "0..*" Album : contiene
+Usuario "1" o-- "0..*" Album : tiene
+Album "1" *-- "0..*" Cancion : contiene
+Album "1" o-- "0..*" Artista : incluye
+Usuario ..> Album : usa
+Usuario ..> Cancion : usa
+
+@enduml
